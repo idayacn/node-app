@@ -1,0 +1,606 @@
+{
+	"openapi": "3.0.1",
+    "info": {
+      	"version": "1.0.0",
+      	"title": "CRUD MESN",
+      	"description": "Student API Documentation",
+      	"license": {
+        	"name": "MIT",
+        	"url": "https://opensource.org/licenses/MIT"
+      	}
+    },
+    "host": "localhost:3000/api/students",
+    "basePath": "/api/documentation",
+    "tags": [
+      	{
+        	"name": "Students",
+        	"description": "API endpoints for Student system"
+      	}
+    ],
+    "schemes": [
+      	"http"
+    ],
+    "consumes": [
+      	"application/json"
+    ],
+    "produces": [
+      	"application/json"
+    ],
+    "servers": [
+	    {
+	      "url": "/api",
+	      "description": "Local server"
+	    }
+  	],
+    "components": {
+	  	"schemas": {
+	  		"PhoneNumber":{
+		    	"type": "object",
+		    	"properties":{
+			    	"calling_code": {
+	            		"type": "number"
+	          		},
+	          		"country_code": {
+	            		"type": "string"
+	          		},
+	          		"mobile_number": {
+	            		"type": "number"
+	          		}
+		    	}
+		    },
+		    "Student": {
+		      	"type": "object",
+		      	"properties": {
+		        	"first_name": {
+		          		"type": "string"
+		        	},
+		        	"last_name": {
+		          		"type": "string"
+		        	},
+		        	"email": {
+		          		"type": "string"
+		        	},
+		        	"pin_number": {
+		          		"type": "number"
+		        	},
+		        	"phone_number": {
+						"$ref": "#/components/schemas/PhoneNumber"          		
+		        	}
+		      	}
+		    }
+	  	},
+	  	"securitySchemes": {
+		    "api_key": {
+		      "type": "apiKey",
+		      "name": "api_key",
+		      "in": "header"
+		    }
+	  	}
+	},
+    "paths": {
+      	"/students/create": {
+        	"post": {
+          		"tags": [
+            		"Students"
+          		],
+          		"description": "Create new Student in system",
+          		"parameters": [
+          			{				      	
+				      	"in": "query",
+				      	"name": "first_name",
+				      	"description": "First Name",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {
+				      	"in": "query",
+				      	"name": "last_name",
+				      	"description": "Last Name",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {
+				      	"in": "query",
+				      	"name": "email",
+				      	"description": "Email",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {
+				      	"in": "query",
+				      	"name": "password",
+				      	"description": "Password",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string",
+				        	"format":"password"
+				      	}		      	
+				    },
+				    {
+				      	"in": "query",
+				      	"name": "pin_number",
+				      	"description": "PIN",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "number"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "skills",
+				      	"description": "Skills",
+				      	"required": false,
+				      	"schema": {
+				        	"type": "array",
+				        	"items": {
+				          		"type": "string"
+				        	}
+				      	},
+				      	"style": "simple"
+				    },
+				    {
+					  	"in": "query",
+					  	"name": "phone_number",
+					  	"content": {
+					    	"application/json": {
+						      	"schema": {
+						        	"type": "object",
+						        		"required": [
+						          			"calling_code",
+						          			"country_code",
+						          			"mobile_number"
+						        		],
+						        	"properties": {
+						          		"calling_code": {
+						            		"type": "number"
+						          		},
+						          		"country_code": {
+						            		"type": "string"
+						          		},
+						          		"mobile_number": {
+						            		"type": "number"
+						          		}
+						        	}
+						      	}
+					    	}
+					  	}
+					},
+					{				      	
+				      	"in": "query",
+				      	"name": "medium",
+				      	"description": "Medium",
+				      	"required": false,
+				      	"schema": {
+				        	"type": "string",
+				        	"enum":[
+				        		"English",
+				        		"Tamil",
+				        		"Sinhala"
+				        	]
+				      	},
+				      	"style": "simple"
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "courses",
+				      	"description": "Courses",
+				      	"required": false,
+				      	"schema": {
+				        	"type": "array",
+				        	"items": {
+				          		"type": "string",
+				          		"enum":[
+				        			"English",
+				        			"Tamil",
+				        			"Sinhala"
+				        		],
+				        		"default": "available"
+				        	}				        	
+				      	},
+				      	"style": "simple"
+				    }
+          		],          	
+          		"requestBody": {
+					"content": {
+					    "multipart/form-data": {
+					      	"schema": {
+					      		"type": "object",
+					      		"properties": {
+					      			"productImage":{
+					      				"type": "string",
+					      				"format": "binary"
+					      			},
+					      			"selfie":{
+					      				"type": "base64"
+					      			}
+					      		}				        	
+					      	}					      	
+					    }
+					}
+				},
+          		"produces": [
+            		"application/json"
+          		],
+          		"responses": {
+            		"200": {
+              		"description": "New Student is created",
+              		"schema": {
+                		"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+        	} 
+      	},      	
+       	"/students/": {
+        	"get": {
+            	"tags": [
+              		"Students"
+            	],
+            	"summary": "Get all Students in system",
+            	"responses": {
+              		"200": {
+                	"description": "OK",                	      	
+                	"schema": {
+                  		"$ref": "#/components/schemas/Student"
+                		}
+              		}
+            	},
+            	"security": [
+				    {
+				      "api_key": []
+				    }
+				]
+        	}
+    	},
+      	"/students/{id}": {
+        	"parameters": [
+          		{
+            		"name": "id",
+            		"in": "path",
+		            "required": true,
+		            "description": "ID of Student that we want to find",
+		            "type": "string"
+          		}
+        	],
+        	"delete": {
+          		"summary": "Delete Student with given ID",
+          		"tags": [
+            			"Students"
+          			],
+          		"responses": {
+            		"200": {
+              			"description": "Student is deleted",
+              			"schema": {
+                			"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},
+          		"security": [
+				    {
+				      "api_key": []
+				    }
+				]
+        	},
+        	"put": {
+          		"summary": "Update Student with give ID",
+          		"tags": [
+            		"Students"
+          		],
+          		"requestBody": {
+					"content": {
+					    "application/json": {
+					      	"schema": {
+					      		"$ref": "#/components/schemas/Student"
+					      	}
+					    }
+					}
+				},
+          		"responses": {
+            		"200": {
+              			"description": "Student is updated",
+              			"schema": {
+                			"$ref": "#/components/schemas/Student"
+              			}
+            		}
+         		},
+         		"security": [
+				    {
+				      "api_key": []
+				    }
+				]
+        	}
+      	},
+      	"/auth/register": {
+			"post": {
+		  		"tags": [
+		    		"Auth"
+		  		],
+		  		"description": "User Registration",
+		  		"parameters": [
+		  			{				      	
+				      	"in": "query",
+				      	"name": "first_name",
+				      	"description": "First Name",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "last_name",
+				      	"description": "Last Name",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "email",
+				      	"description": "Email Address",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "password",
+				      	"description": "Password",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string",
+				        	"format": "password"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "card_number",
+				      	"description": "Card Number",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "ccv",
+				      	"description": "CCV code",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "number"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "exp_date",
+				      	"description": "Expiry Date  dd/MM/YYYY",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    }
+		  		],
+		  		"produces": [
+            		"application/json"
+          		],
+          		"responses": {
+            		"200": {
+              		"description": "New Student is created",
+              		"schema": {
+                		"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},		  		
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+			} 
+		},
+		"/auth/login": {
+			"post": {
+		  		"tags": [
+		    		"Auth"
+		  		],
+		  		"description": "User Registration",
+		  		"parameters": [
+		  			{				      	
+				      	"in": "query",
+				      	"name": "email",
+				      	"description": "Email",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "password",
+				      	"description": "Password",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string",
+				        	"format": "password"
+				      	}
+				    }
+		  		],
+		  		"produces": [
+            		"application/json"
+          		],
+          		"responses": {
+            		"200": {
+              		"description": "Login successful",
+              		"schema": {
+                		"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},		  		
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+			} 
+		},
+		"/payment/": {
+			"get": {
+		  		"tags": [
+		    		"Payment"
+		  		],
+		  		"description": "Payment Details",
+		  		"produces": [
+            		"application/json"
+          		],
+          		"responses": {
+            		"200": {
+              		"description": "Login successful",
+              		"schema": {
+                		"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},		  		
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+			},
+			"post": {
+		  		"tags": [
+		    		"Payment"
+		  		],
+		  		"description": "Create Subscription",
+		  		"parameters": [
+		  			{				      	
+				      	"in": "query",
+				      	"name": "id",
+				      	"description": "users account id",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "card_number",
+				      	"description": "Card Number",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "number"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "exp_date",
+				      	"description": "Expiry Date MM/YY",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "ccv",
+				      	"description": "CCV Code",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "number"
+				      	}
+				    }
+		  		],
+		  		"produces": [
+            		"application/json"
+          		],
+          		"responses": {
+            		"200": {
+              		"description": "Login successful",
+              		"schema": {
+                		"$ref": "#/components/schemas/Student"
+              			}
+            		}
+          		},		  		
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+			} 
+		},
+      	"/uploads": {
+			"post": {
+		  		"tags": [
+		    		"Uploads"
+		  		],
+		  		"description": "Uplaod Image",
+		  		"parameters": [
+		  			{				      	
+				      	"in": "query",
+				      	"name": "name",
+				      	"description": "Name",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "string"
+				      	}
+				    },
+				    {				      	
+				      	"in": "query",
+				      	"name": "price",
+				      	"description": "Price",
+				      	"required": true,
+				      	"schema": {
+				        	"type": "number"
+				      	}
+				    }
+		  		],
+		  		"requestBody": {
+					"content": {
+					    "multipart/form-data": {
+					      	"schema": {
+					      		"type": "object",
+					      		"properties": {
+					      			"productImage":{
+					      				"type": "string",
+					      				"format": "binary"
+					      			},
+					      			"selfie":{
+					      				"type": "base64"
+					      			}
+					      		}				        	
+					      	}					      	
+					    }
+					}
+				},
+		  		"produces": [
+		    		"application/json"
+		  		],
+		  		"responses": {
+		    		"200": {
+		      		"description": "New Student is created",
+		      		"schema": {
+		        		"$ref": "#/components/schemas/Student"
+		      			}
+		    		}
+		  		},
+			    "security": [
+				    {
+				      "api_key": []
+				    }
+				]
+			} 
+		}
+    }
+}  
